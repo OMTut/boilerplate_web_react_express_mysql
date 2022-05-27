@@ -24,6 +24,7 @@ app.get('/api/get', (req, res) => {
     })
 })
 
+//insert function
 app.post('/api/insert', (req, res) => {
     const movieName = req.body.movieName;
     const movieReview = req.body.movieReview
@@ -34,18 +35,24 @@ app.post('/api/insert', (req, res) => {
     })
 })
 
-// app.get("/", (req, res) => {
+//update
+app.put('/api/update', (req, res) => {
+    const name = req.body.movieName;
+    const review = req.body.movieReview;
+    const sqlUpdate = "UPDATE movie_reviews SET movieReview = ? WHERE movieName = ?";
+    conn.query(sqlUpdate, [review, name], (err, result) => {
+        if (err) console.log(err)
+    })
+})
 
-//     const sqlInsert = "INSERT INTO movie_reviews (movieName, movieReview) VALUES (?,?);"
-//     conn.query(sqlInsert, [movieName, movieReview], (err, result) => {
-//         res.send("hello Jason!")
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             console.log("Should have worked")
-//         }
-//     })
-// })
+//delete
+app.delete('/api/delete/:movieName', (req, res) => {
+    const name = req.params.movieName;
+    const sqlDelete = "DELETE FROM movie_reviews WHERE movieName = ?";
+    conn.query(sqlDelete, name, (err, result) => {
+        if (err) console.log(err)
+    })
+})
 
 app.listen(3001, () => {
     console.log('running on port 3001')
